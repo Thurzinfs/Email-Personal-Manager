@@ -661,7 +661,6 @@ SCHEDULER_INTERVAL_SECONDS=60
 - [✅] `UserEntity` e contratos de usuário
 - [✅] `HashService` (bcrypt)
 - [✅] Configuração de banco assíncrono
-- [🚧] `main.py` sem `app = FastAPI()`, import quebrado, `list_users()` ausente
 
 ###  Fase 1 — Login no sistema
 - [ ] Corrigir bugs herdados da Fase 0
