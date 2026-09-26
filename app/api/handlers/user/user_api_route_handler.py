@@ -1,10 +1,11 @@
+from typing import List
 from uuid import UUID
 
 from fastapi import APIRouter, FastAPI
 
 from starlette import status
 
-from app.api.dependencies import RegisterUserUseCaseDependencie, ResponseUserUseCaseDependencie
+from app.api.dependencies import ListUsersUseCaseDependencie, RegisterUserUseCaseDependencie, ResponseUserUseCaseDependencie
 from app.api.schemas import UserInSchema, UserOutSchema
 
 
@@ -42,3 +43,17 @@ class UserAPiRouteHandler:
             user = await use_case.execute(id)
 
             return UserOutSchema.from_domain(user)
+
+    def _register_get_list_router(self) -> None:
+        @self.router.get(
+            '/list',
+            response_model=List[UserOutSchema],
+            status_code=status.HTTP_200_OK
+        )
+        async def list_users(use_case: ListUsersUseCaseDependencie):
+            users = await use_case.execute()
+
+            return [
+                UserOutSchema.from_domain(user)
+                for user in users
+            ]
