@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.application.use_cases.user_use_cases import RegisterUserUseCase, ResponseUserUseCase
+from app.application.use_cases.user_use_cases import ListUsersUseCase, RegisterUserUseCase, ResponseUserUseCase
 from app.domain.contracts.user.repositories import IUserRepository
 from app.domain.contracts.user.servicies import IHashService
 from app.infrastructure.database.repository import AdvancedUserRepository
@@ -33,6 +33,11 @@ def get_response_user_use_case(
 ) -> ResponseUserUseCase:
     return ResponseUserUseCase(user_repo=user_repo)
 
+def get_list_users_use_case(
+    user_repo: IUserRepository = Depends(get_user_repository)
+) -> ListUsersUseCase:
+    return ListUsersUseCase(user_repo=user_repo)
+
 UserRepoDependencie = Annotated[IUserRepository, Depends(get_user_repository)]
 
 RegisterUserUseCaseDependencie = Annotated[
@@ -40,3 +45,5 @@ RegisterUserUseCaseDependencie = Annotated[
 ]
 
 ResponseUserUseCaseDependencie = Annotated[ResponseUserUseCase, Depends(get_response_user_use_case)]
+
+ListUsersUseCaseDependencie = Annotated[ListUsersUseCase, Depends(get_list_users_use_case)]
