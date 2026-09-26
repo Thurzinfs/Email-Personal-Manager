@@ -38,3 +38,16 @@ class ResponseUserUseCase:
             raise UserNotFoundException()
 
         return UserOutDTO.from_domain(user)
+
+
+class ListUsersUseCase:
+    def __init__(self, user_repo: IUserRepository) -> None:
+        self.user_repo = user_repo
+
+    async def execute(self):
+        users = await self.user_repo.list_users()
+
+        return [
+            UserOutDTO.from_domain(user)
+            for user in users
+        ]
