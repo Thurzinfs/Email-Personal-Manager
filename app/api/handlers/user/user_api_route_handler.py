@@ -13,6 +13,7 @@ class UserAPiRouteHandler:
     def __init__(self) -> None:
         self.router = APIRouter(prefix='/users', tags=['User'])
         self._register_post_router()
+        self._register_get_list_router()
         self._register_get_router()
         
     def register_router(self, app: FastAPI) -> None:
