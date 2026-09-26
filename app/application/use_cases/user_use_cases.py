@@ -1,8 +1,10 @@
+from uuid import UUID
+
 from app.application.dtos.user_dtos import UserInDTO, UserOutDTO
 from app.domain.contracts.user.repositories import IUserRepository
 from app.domain.contracts.user.servicies import IHashService
 from app.domain.entities.user_entities import UserEntity
-from app.domain.exceptions.user_exceptions import EmailAlreadyExistsException
+from app.domain.exceptions.user_exceptions import EmailAlreadyExistsException, UserNotFoundException
 
 
 class RegisterUserUseCase:
@@ -23,4 +25,16 @@ class RegisterUserUseCase:
         )
 
         await self.user_repo.save(user=user)
+        return UserOutDTO.from_domain(user)
+
+
+class ResponseUserUseCase:
+    def __init__(self, user_repo: IUserRepository) -> None:
+        self.user_repo = user_repo
+
+    async def execute(self, id: UUID):
+        user = await self.user_repo.find_by_id(id)
+        if not user:
+            raise UserNotFoundException()
+
         return UserOutDTO.from_domain(user)
