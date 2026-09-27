@@ -3,8 +3,11 @@ from uuid import UUID
 from app.application.dtos.user_dtos import UserInDTO, UserOutDTO
 from app.domain.contracts.user.repositories import IUserRepository
 from app.domain.contracts.user.servicies import IHashService
-from app.domain.entities.user_entities import UserEntity
-from app.domain.exceptions.user_exceptions import EmailAlreadyExistsException, UserNotFoundException
+from app.domain.entities.user.user_entities import UserEntity
+from app.domain.exceptions.user_exceptions import (
+    EmailAlreadyExistsException,
+    UserNotFoundException,
+)
 
 
 class RegisterUserUseCase:
@@ -47,7 +50,4 @@ class ListUsersUseCase:
     async def execute(self):
         users = await self.user_repo.list_users()
 
-        return [
-            UserOutDTO.from_domain(user)
-            for user in users
-        ]
+        return [UserOutDTO.from_domain(user) for user in users]

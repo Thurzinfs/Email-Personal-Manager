@@ -1,5 +1,5 @@
 class BaseDomainException(Exception):
-    
+
     message = 'Ocorreu um erro de dominio.'
     status_code = 400
 

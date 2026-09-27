@@ -5,8 +5,12 @@ from fastapi import APIRouter, FastAPI
 
 from starlette import status
 
-from app.api.dependencies import ListUsersUseCaseDependencie, RegisterUserUseCaseDependencie, ResponseUserUseCaseDependencie
-from app.api.schemas import UserInSchema, UserOutSchema
+from app.api.dependencies.user.user_dependencies import (
+    ListUsersUseCaseDependencie,
+    RegisterUserUseCaseDependencie,
+    ResponseUserUseCaseDependencie,
+)
+from app.api.schemas.user.user_schemas import UserInSchema, UserOutSchema
 
 
 class UserAPiRouteHandler:
@@ -15,7 +19,7 @@ class UserAPiRouteHandler:
         self._register_post_router()
         self._register_get_list_router()
         self._register_get_router()
-        
+
     def register_router(self, app: FastAPI) -> None:
         app.include_router(self.router)
 
@@ -38,9 +42,11 @@ class UserAPiRouteHandler:
         @self.router.get(
             '/{id}',
             response_model=UserOutSchema,
-            status_code=status.HTTP_200_OK
+            status_code=status.HTTP_200_OK,
         )
-        async def response_user(id: UUID, use_case: ResponseUserUseCaseDependencie):
+        async def response_user(
+            id: UUID, use_case: ResponseUserUseCaseDependencie
+        ):
             user = await use_case.execute(id)
 
             return UserOutSchema.from_domain(user)
@@ -49,12 +55,9 @@ class UserAPiRouteHandler:
         @self.router.get(
             '/list',
             response_model=List[UserOutSchema],
-            status_code=status.HTTP_200_OK
+            status_code=status.HTTP_200_OK,
         )
         async def list_users(use_case: ListUsersUseCaseDependencie):
             users = await use_case.execute()
 
-            return [
-                UserOutSchema.from_domain(user)
-                for user in users
-            ]
+            return [UserOutSchema.from_domain(user) for user in users]

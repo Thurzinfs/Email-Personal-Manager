@@ -8,6 +8,5 @@ async def domain_exception_handler(
     request: Request, exc: BaseDomainException
 ) -> JSONResponse:
     return JSONResponse(
-        status_code=exc.status_code,
-        content={"detail": exc.message}
+        status_code=exc.status_code, content={'detail': exc.message}
     )

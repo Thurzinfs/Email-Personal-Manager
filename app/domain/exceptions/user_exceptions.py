@@ -7,6 +7,5 @@ class UserNotFoundException(BaseDomainException):
 
 
 class EmailAlreadyExistsException(BaseDomainException):
-    message = "Este e-mail já esta registrado."
+    message = 'Este e-mail já esta registrado.'
     status_code = 409
-

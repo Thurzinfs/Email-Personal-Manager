@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import List
 from uuid import UUID
 
-from app.domain.entities.user_entities import UserEntity
+from app.domain.entities.user.user_entities import UserEntity
 
 
 class IUserRepository(ABC):

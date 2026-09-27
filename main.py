@@ -2,7 +2,9 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from app.api.exceptions_handlers.domain_handlers import domain_exception_handler
+from app.api.exceptions_handlers.domain_handlers import (
+    domain_exception_handler,
+)
 from app.api.handlers.user.user_api_route_handler import UserAPiRouteHandler
 from app.infrastructure.database.sqlite.database import close_db, init_models
 
@@ -22,7 +24,7 @@ app = FastAPI(
     description='Uma api RESTfull desenvolvida com python utilizando o advanced alchemy como orm afim de estudo.',
     version='0.0.1',
     lifespan=lifespan,
-    root_path='/api/v1'
+    root_path='/api/v1',
 )
 alchemy.init_app(app)
 
