@@ -19,5 +19,5 @@ class IRefreshTokenServices(ABC):
         ...
 
     @abstractmethod
-    def decode_token(self, hash: str) -> str:
+    def decode_token(self, hash: str) -> dict:
         ...
