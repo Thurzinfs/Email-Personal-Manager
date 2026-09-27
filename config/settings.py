@@ -2,6 +2,8 @@ from dotenv import load_dotenv
 import os
 
 
+load_dotenv()
+
 class EnvironmentConfig:
     def __init__(self) -> None:
         self.GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '')
