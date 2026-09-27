@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -42,3 +44,7 @@ def get_auth_logout_use_case(
         user_repo=user_repo,
         auth_repo=auth_repo
     )
+
+
+LoginUserUseCaseDependencie = Annotated[LoginUserUseCase, Depends(get_auth_login_use_case)]
+LogoutUserUseCaseDependencie = Annotated[LogoutUserUseCase, Depends(get_auth_logout_use_case)]
