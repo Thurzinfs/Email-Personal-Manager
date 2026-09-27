@@ -34,3 +34,16 @@ class LoginUserUseCase:
         await self.auth_repo.save(refresh_entity)
 
         return LoginOutDTO(access_token=access_token, refresh_token=refresh_token)
+
+
+class LogoutUserUseCase:
+    def __init__(self, auth_repo: IRefreshTokenRepository, user_repo: IUserRepository) -> None:
+        self.auth_repo=auth_repo
+        self.user_repo=user_repo
+
+    async def execute(self, user: UUID):
+        tokens = await self.auth_repo.list_tokens_by_user(user)
+
+        for token in tokens:
+            token.revoke()
+            await self.auth_repo.save(token)
