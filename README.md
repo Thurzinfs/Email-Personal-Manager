@@ -11,23 +11,23 @@ Sistema que atua como um **gerenciador pessoal de e-mail** do usuário: conecta-
 
 ---
 
-## 📋 Sumário
+## Sumário
 
-- [Sobre o Projeto](#-sobre-o-projeto)
-- [Arquitetura](#-arquitetura)
-- [Stack Tecnológico](#-stack-tecnológico)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [Entidades do Domínio](#-entidades-do-domínio)
-- [Casos de Uso](#-casos-de-uso)
-- [Endpoints da API](#-endpoints-da-api)
-- [Banco de Dados](#-banco-de-dados)
-- [Autenticação](#-autenticação)
-- [Conexão com o Gmail (OAuth2)](#-conexão-com-o-gmail-oauth2)
-- [Agendamento (APScheduler)](#-agendamento-apscheduler)
-- [Instalação e Configuração](#-instalação-e-configuração)
-- [Variáveis de Ambiente](#-variáveis-de-ambiente)
-- [Roadmap](#-roadmap)
-- [Contato](#-contato)
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Arquitetura](#arquitetura)
+- [Stack Tecnológico](#stack-tecnológico)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Entidades do Domínio](#entidades-do-domínio)
+- [Casos de Uso](#casos-de-uso)
+- [Endpoints da API](#endpoints-da-api)
+- [Banco de Dados](#banco-de-dados)
+- [Autenticação](#autenticação)
+- [Conexão com o Gmail (OAuth2)](#conexão-com-o-gmail-oauth2)
+- [Agendamento (APScheduler)](#agendamento-apscheduler)
+- [Instalação e Configuração](#instalação-e-configuração)
+- [Variáveis de Ambiente](#variáveis-de-ambiente)
+- [Roadmap](#roadmap)
+- [Contato](#contato)
 
 ---
 
@@ -629,7 +629,7 @@ Documentação interativa em `http://localhost:8000/docs`.
 
 ---
 
-## ⚙️ Variáveis de Ambiente
+## Variáveis de Ambiente
 
 ```bash
 # App
@@ -655,7 +655,7 @@ SCHEDULER_INTERVAL_SECONDS=60
 
 ---
 
-## 🗺️ Roadmap
+## Roadmap
 
 ###  Fase 0 — Base herdada (parcial)
 - [✅] `UserEntity` e contratos de usuário
@@ -694,14 +694,14 @@ SCHEDULER_INTERVAL_SECONDS=60
 
 ---
 
-## 📄 Licença
+## Licença
 
 Este projeto está sob a licença **MIT**.
 
 
 ---
 
-## 📞 Contato
+## Contato
 
 - **Autor** — Arthur França Silva
 - **E-mail** — arthurfranca.dev@gmail.com
