@@ -18,7 +18,7 @@ class AdvancedRefreshTokenRepository(SQLAlchemyAsyncRepository[RefreshToken], IR
         return self._model_to_entity(saved_model)
 
     async def find_by_hash(self, hash: str) -> RefreshTokenEntity | None:
-        model = await self.get_one_or_none(hash=hash)
+        model = await self.get_one_or_none(token_hash=hash)
         if not model:
             return None
 
