@@ -29,6 +29,7 @@ class AuthTokenService(IRefreshTokenServices):
     def create_access_token(self, user: UUID) -> str:
         payload = {
             'sub': str(user),
+            'type': 'access',
             'exp': datetime.now(timezone.utc) + timedelta(minutes=int(settings.ACCESS_TOKEN_EXPIRE_MINUTES))
         }
 
