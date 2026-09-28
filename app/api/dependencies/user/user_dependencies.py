@@ -44,16 +44,16 @@ def get_list_users_use_case(
     return ListUsersUseCase(user_repo=user_repo)
 
 
-UserRepoDependencie = Annotated[IUserRepository, Depends(get_user_repository)]
+UserRepoDependency = Annotated[IUserRepository, Depends(get_user_repository)]
 
-RegisterUserUseCaseDependencie = Annotated[
+RegisterUserUseCaseDependency = Annotated[
     RegisterUserUseCase, Depends(get_register_user_use_case)
 ]
 
-ResponseUserUseCaseDependencie = Annotated[
+ResponseUserUseCaseDependency = Annotated[
     ResponseUserUseCase, Depends(get_response_user_use_case)
 ]
 
-ListUsersUseCaseDependencie = Annotated[
+ListUsersUseCaseDependency = Annotated[
     ListUsersUseCase, Depends(get_list_users_use_case)
 ]
