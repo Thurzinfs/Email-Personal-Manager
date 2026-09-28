@@ -32,10 +32,10 @@ alchemy.init_app(app)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=['*'],
     allow_credentials=True,
-    allow_headers=["*"],
-    allow_methods=["*"]
+    allow_headers=['*'],
+    allow_methods=['*'],
 )
 
 app.add_exception_handler(BaseDomainException, domain_exception_handler)  # type: ignore

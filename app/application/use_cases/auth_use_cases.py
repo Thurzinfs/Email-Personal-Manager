@@ -13,11 +13,17 @@ from config.exception import BaseDomainException
 
 
 class LoginUserUseCase:
-    def __init__(self, auth_repo: IRefreshTokenRepository, auth_service: IRefreshTokenServices, user_repo: IUserRepository, hash_service: IHashService) -> None:
-        self.auth_repo=auth_repo
-        self.auth_service=auth_service
-        self.user_repo=user_repo
-        self.hash_service=hash_service
+    def __init__(
+        self,
+        auth_repo: IRefreshTokenRepository,
+        auth_service: IRefreshTokenServices,
+        user_repo: IUserRepository,
+        hash_service: IHashService,
+    ) -> None:
+        self.auth_repo = auth_repo
+        self.auth_service = auth_service
+        self.user_repo = user_repo
+        self.hash_service = hash_service
 
     async def execute(self, dto: LoginInDTO):
         user = await self.user_repo.find_by_email(dto.email)
@@ -32,17 +38,23 @@ class LoginUserUseCase:
 
         access_token = self.auth_service.create_access_token(user.id)
 
-        refresh_token, refresh_entity = self.auth_service.create_refresh_token(user.id)
+        refresh_token, refresh_entity = self.auth_service.create_refresh_token(
+            user.id
+        )
 
         await self.auth_repo.save(refresh_entity)
 
-        return LoginOutDTO(access_token=access_token, refresh_token=refresh_token)
+        return LoginOutDTO(
+            access_token=access_token, refresh_token=refresh_token
+        )
 
 
 class LogoutUserUseCase:
-    def __init__(self, auth_repo: IRefreshTokenRepository, user_repo: IUserRepository) -> None:
-        self.auth_repo=auth_repo
-        self.user_repo=user_repo
+    def __init__(
+        self, auth_repo: IRefreshTokenRepository, user_repo: IUserRepository
+    ) -> None:
+        self.auth_repo = auth_repo
+        self.user_repo = user_repo
 
     async def execute(self, user: UUID):
         tokens = await self.auth_repo.list_tokens_by_user(user)
@@ -53,11 +65,15 @@ class LogoutUserUseCase:
 
 
 class RefreshTokenUseCase:
-    def __init__(self, auth_repo: IRefreshTokenRepository, auth_service: IRefreshTokenServices):
-        self.auth_repo=auth_repo
-        self.auth_service=auth_service
+    def __init__(
+        self,
+        auth_repo: IRefreshTokenRepository,
+        auth_service: IRefreshTokenServices,
+    ):
+        self.auth_repo = auth_repo
+        self.auth_service = auth_service
 
-    async def execute(self, refresh: str):        
+    async def execute(self, refresh: str):
         token = await self.auth_repo.find_by_hash(refresh)
         if not token:
             raise InvalidTokenException()
@@ -70,10 +86,14 @@ class RefreshTokenUseCase:
             raise UserNotFoundException()
 
         new_access_token = self.auth_service.create_access_token(token.user)
-        refresh_token, refresh_entity = self.auth_service.create_refresh_token(token.user)
+        refresh_token, refresh_entity = self.auth_service.create_refresh_token(
+            token.user
+        )
 
         token.revoke()
         await self.auth_repo.save(token)
         await self.auth_repo.save(refresh_entity)
 
-        return LoginOutDTO(access_token=new_access_token, refresh_token=refresh_token)
+        return LoginOutDTO(
+            access_token=new_access_token, refresh_token=refresh_token
+        )

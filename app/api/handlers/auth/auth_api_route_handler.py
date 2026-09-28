@@ -91,7 +91,7 @@ class AuthApiRouteHandler:
             if not refresh:
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED,
-                    detail="Cookie de renovação ausente.",
+                    detail='Cookie de renovação ausente.',
                 )
             tokens = await use_case.execute(refresh)
 

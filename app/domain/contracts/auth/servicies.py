@@ -15,7 +15,9 @@ class IRefreshTokenServices(ABC):
         ...
 
     @abstractmethod
-    def create_refresh_token(self, user: UUID) -> Tuple[str, RefreshTokenEntity]:
+    def create_refresh_token(
+        self, user: UUID
+    ) -> Tuple[str, RefreshTokenEntity]:
         ...
 
     @abstractmethod

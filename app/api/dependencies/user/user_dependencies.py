@@ -10,7 +10,9 @@ from app.application.use_cases.user_use_cases import (
 )
 from app.domain.contracts.user.repositories import IUserRepository
 from app.domain.contracts.user.servicies import IHashService
-from app.infrastructure.database.repositorys.user_repository import AdvancedUserRepository
+from app.infrastructure.database.repositorys.user_repository import (
+    AdvancedUserRepository,
+)
 from app.infrastructure.database.services.user_services import HashService
 from app.infrastructure.database.sqlite.database import get_session
 

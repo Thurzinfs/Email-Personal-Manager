@@ -22,13 +22,15 @@ def create_cli() -> TyperGroup:
 
     typer_clicker_object.context_settings = {
         'default_map': {
-            'alchemy': {'config': 'app.infrastructure.database.sqlite.database.config'}
+            'alchemy': {
+                'config': 'app.infrastructure.database.sqlite.database.config'
+            }
         }
     }
 
     return typer_clicker_object
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     cli = create_cli()
     cli()

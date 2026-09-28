@@ -15,5 +15,7 @@ class IRefreshTokenRepository(ABC):
         ...
 
     @abstractmethod
-    async def list_tokens_by_user(self, user: UUID) -> List[RefreshTokenEntity]:
+    async def list_tokens_by_user(
+        self, user: UUID
+    ) -> List[RefreshTokenEntity]:
         ...

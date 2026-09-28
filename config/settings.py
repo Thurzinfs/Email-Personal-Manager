@@ -4,6 +4,7 @@ import os
 
 load_dotenv()
 
+
 class EnvironmentConfig:
     def __init__(self) -> None:
         self.GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '')
@@ -12,7 +13,12 @@ class EnvironmentConfig:
         self.ENVIRONMENT = os.getenv('ENVIRONMENT', '')
         self.SECRET_KEY = os.getenv('SECRET_KEY', '')
         self.ALGORITHM = os.getenv('ALGORITHM', '')
-        self.ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES', '')
-        self.REFRESH_TOKEN_EXPIRE_DAYS = os.getenv('REFRESH_TOKEN_EXPIRE_DAYS', '')
+        self.ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv(
+            'ACCESS_TOKEN_EXPIRE_MINUTES', ''
+        )
+        self.REFRESH_TOKEN_EXPIRE_DAYS = os.getenv(
+            'REFRESH_TOKEN_EXPIRE_DAYS', ''
+        )
+
 
 settings = EnvironmentConfig()

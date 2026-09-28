@@ -11,8 +11,10 @@ from .user_models import User
 class RefreshToken(UUIDAuditBase):
     __tablename__ = 'refresh_tokens'
 
-    user_id: Mapped[UUID] = mapped_column(ForeignKey('users.id'), nullable=False)
-    user: Mapped["User"] = relationship("User", lazy='joined')
+    user_id: Mapped[UUID] = mapped_column(
+        ForeignKey('users.id'), nullable=False
+    )
+    user: Mapped['User'] = relationship('User', lazy='joined')
     token_hash: Mapped[str] = mapped_column(String(255), nullable=False)
     expire_at: Mapped[datetime]
     revoked: Mapped[bool] = mapped_column(default=False)

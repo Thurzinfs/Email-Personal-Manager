@@ -8,7 +8,9 @@ from app.domain.entities.auth.refresh_token_entity import RefreshTokenEntity
 from app.infrastructure.models.refresh_token_model import RefreshToken
 
 
-class AdvancedRefreshTokenRepository(SQLAlchemyAsyncRepository[RefreshToken], IRefreshTokenRepository):
+class AdvancedRefreshTokenRepository(
+    SQLAlchemyAsyncRepository[RefreshToken], IRefreshTokenRepository
+):
     model_type = RefreshToken
 
     async def save(self, refresh: RefreshTokenEntity) -> RefreshTokenEntity:
@@ -24,12 +26,11 @@ class AdvancedRefreshTokenRepository(SQLAlchemyAsyncRepository[RefreshToken], IR
 
         return self._model_to_entity(model)
 
-    async def list_tokens_by_user(self, user: UUID) -> List[RefreshTokenEntity]:
+    async def list_tokens_by_user(
+        self, user: UUID
+    ) -> List[RefreshTokenEntity]:
         models = await self.list(user_id=user)
-        return [
-            self._model_to_entity(token)
-            for token in models
-        ]
+        return [self._model_to_entity(token) for token in models]
 
     def _entity_to_model(self, entity: RefreshTokenEntity) -> RefreshToken:
         return RefreshToken(
@@ -38,7 +39,7 @@ class AdvancedRefreshTokenRepository(SQLAlchemyAsyncRepository[RefreshToken], IR
             token_hash=entity.token_hash,
             expire_at=entity.expire_at,
             revoked=entity.revoked,
-            created_at=entity.created_at
+            created_at=entity.created_at,
         )
 
     def _model_to_entity(self, model: RefreshToken) -> RefreshTokenEntity:
@@ -48,6 +49,5 @@ class AdvancedRefreshTokenRepository(SQLAlchemyAsyncRepository[RefreshToken], IR
             token_hash=model.token_hash,
             revoked=model.revoked,
             expire_at=model.expire_at,
-            created_at=model.created_at
+            created_at=model.created_at,
         )
-    

@@ -13,8 +13,7 @@ class LoginOutDTO(BaseModel):
     @classmethod
     def from_domain(cls, model):
         return cls(
-            access_token=model.access_token,
-            refresh_token=model.refresh_token
+            access_token=model.access_token, refresh_token=model.refresh_token
         )
 
 
