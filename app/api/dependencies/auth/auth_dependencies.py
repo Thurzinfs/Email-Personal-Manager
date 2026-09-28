@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.dependencies.user.user_dependencies import get_hash_service, get_user_repository
 from app.application.dtos.user_dtos import UserOutDTO
-from app.application.use_cases.auth_use_cases import LoginUserUseCase, LogoutUserUseCase
+from app.application.use_cases.auth_use_cases import LoginUserUseCase, LogoutUserUseCase, RefreshTokenUseCase
 from app.domain.contracts.auth.repositories import IRefreshTokenRepository
 from app.domain.contracts.auth.servicies import IRefreshTokenServices
 from app.domain.contracts.user.repositories import IUserRepository
@@ -50,6 +50,16 @@ def get_auth_logout_use_case(
     )
 
 
+def get_refresh_token_use_case(
+    auth_repo: IRefreshTokenRepository = Depends(get_auth_repository),
+    auth_service: IRefreshTokenServices = Depends(get_auth_service)
+) -> RefreshTokenUseCase:
+    return RefreshTokenUseCase(
+        auth_repo=auth_repo,
+        auth_service=auth_service
+    )
+
+
 async def get_current_user(
     access_token: Annotated[str | None, Cookie(include_in_schema=False)] = None,
     user_repo: IUserRepository = Depends(get_user_repository)
@@ -61,7 +71,6 @@ async def get_current_user(
         )
 
     token_str = access_token.replace('Bearer ', '') if access_token.startswith('Bearer ') else access_token
-    print(token_str)
 
     try:
         payload = jwt.decode(token_str, settings.settings.SECRET_KEY, algorithms=[settings.settings.ALGORITHM])
@@ -90,5 +99,6 @@ async def get_current_user(
 
 LoginUserUseCaseDependency = Annotated[LoginUserUseCase, Depends(get_auth_login_use_case)]
 LogoutUserUseCaseDependency = Annotated[LogoutUserUseCase, Depends(get_auth_logout_use_case)]
+RefreshTokenUseCaseDependency = Annotated[RefreshTokenUseCase, Depends(get_refresh_token_use_case)]
 
-CurrentUserDependency = Annotated[UserOutDTO, Depends(get_current_user)]
+CurrentUserDependency = Annotated[UserEntity, Depends(get_current_user)]
