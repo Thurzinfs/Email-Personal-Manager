@@ -6,9 +6,9 @@ from fastapi import APIRouter, FastAPI
 from starlette import status
 
 from app.api.dependencies.user.user_dependencies import (
-    ListUsersUseCaseDependencie,
-    RegisterUserUseCaseDependencie,
-    ResponseUserUseCaseDependencie,
+    ListUsersUseCaseDependency,
+    RegisterUserUseCaseDependency,
+    ResponseUserUseCaseDependency,
 )
 from app.api.schemas.user.user_schemas import UserInSchema, UserOutSchema
 
@@ -30,7 +30,7 @@ class UserAPiRouteHandler:
             status_code=status.HTTP_201_CREATED,
         )
         async def register_user(
-            data: UserInSchema, use_case: RegisterUserUseCaseDependencie
+            data: UserInSchema, use_case: RegisterUserUseCaseDependency
         ):
             dto = data.to_dto()
 
@@ -45,7 +45,7 @@ class UserAPiRouteHandler:
             status_code=status.HTTP_200_OK,
         )
         async def response_user(
-            id: UUID, use_case: ResponseUserUseCaseDependencie
+            id: UUID, use_case: ResponseUserUseCaseDependency
         ):
             user = await use_case.execute(id)
 
@@ -57,7 +57,7 @@ class UserAPiRouteHandler:
             response_model=List[UserOutSchema],
             status_code=status.HTTP_200_OK,
         )
-        async def list_users(use_case: ListUsersUseCaseDependencie):
+        async def list_users(use_case: ListUsersUseCaseDependency):
             users = await use_case.execute()
 
             return [UserOutSchema.from_domain(user) for user in users]
