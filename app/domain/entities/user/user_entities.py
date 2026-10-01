@@ -25,4 +25,4 @@ class UserEntity:
         self.password = new_hash_password
 
     def delete(self) -> None:
-        self.deleted_at = datetime.now()
+        self.deleted_at = datetime.now(timezone.utc)
