@@ -7,6 +7,7 @@ from app.api.exceptions_handlers.domain_handlers import (
     domain_exception_handler,
 )
 from app.api.handlers.auth.auth_api_route_handler import AuthApiRouteHandler
+from app.api.handlers.email_accounty.email_account_api_route_handler import EmailAccountApiRouteHandler
 from app.api.handlers.user.user_api_route_handler import UserAPiRouteHandler
 from app.infrastructure.database.sqlite.database import close_db, init_models
 
@@ -48,6 +49,8 @@ def health_check():
 
 user_route_handler = UserAPiRouteHandler()
 auth_route_handler = AuthApiRouteHandler()
+email_account_handler = EmailAccountApiRouteHandler()
 
 auth_route_handler.register_router(app)
 user_route_handler.register_router(app)
+email_account_handler.register_router(app)
