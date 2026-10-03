@@ -663,19 +663,19 @@ SCHEDULER_INTERVAL_SECONDS=60
 - [✅] Configuração de banco assíncrono
 
 ###  Fase 1 — Login no sistema
-- [ ] Corrigir bugs herdados da Fase 0
-- [ ] `RegisterUserUseCase`, `LoginUseCase` (JWT)
+- [✅] Corrigir bugs herdados da Fase 0
+- [✅] `RegisterUserUseCase`, `LoginUseCase` (JWT)
 
 ###  Fase 2 — Conexão Gmail (OAuth2)
-- [ ] Projeto no Google Cloud Console + credenciais OAuth2
-- [ ] `EmailAccountEntity`, model, repositório
-- [ ] `TokenEncryptor` (Fernet)
-- [ ] `ConnectEmailAccountUseCase`, `GmailOAuthCallbackUseCase`, `DisconnectEmailAccountUseCase`
-- [ ] Endpoints `/email-accounts`
+- [✅] Projeto no Google Cloud Console + credenciais OAuth2
+- [✅] `EmailAccountEntity`, model, repositório
+- [✅] `TokenEncryptor` (Fernet)
+- [] `ConnectEmailAccountUseCase`, `GmailOAuthCallbackUseCase`, `DisconnectEmailAccountUseCase`
+- [✅] Endpoints `/email-accounts`
 
 ###  Fase 3 — Mensagens agendadas
-- [ ] `MessageEntity`, `ScheduledAtTime`, model, repositório
-- [ ] `GmailProviderAdapter.send()` (Gmail API `users.messages.send`)
+- [✅] `MessageEntity`, `ScheduledAtTime`, model, repositório
+- [✅] `GmailProviderAdapter.send()` (Gmail API `users.messages.send`)
 - [ ] `ScheduleMessageUseCase`, `SendMessageUseCase`, `CancelMessageUseCase`
 - [ ] Job do APScheduler
 
