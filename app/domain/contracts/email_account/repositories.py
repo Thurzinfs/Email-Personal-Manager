@@ -14,6 +14,10 @@ class IEmailAccountRepository(ABC):
     async def find_by_user_id(self, id: UUID) -> EmailAccountEntity | None:
         ...
 
+    @abstractmethod
+    async def find_by_id(self, id: UUID) -> EmailAccountEntity | None:
+        ...
+
 
 class IOAuthConnectionRepository(ABC):
     @abstractmethod

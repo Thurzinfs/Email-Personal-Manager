@@ -23,6 +23,13 @@ class AdvancedEmailAccountRepository(SQLAlchemyAsyncRepository[EmailAccount], IE
 
         return self._model_to_entity(model)
 
+    async def find_by_id(self, id: UUID) -> EmailAccountEntity | None:
+        model = await self.get_one_or_none(id=id)
+        if not model:
+            return None
+
+        return self._model_to_entity(model)
+
     def _model_to_entity(self, model: EmailAccount) -> EmailAccountEntity:
         return EmailAccountEntity(
             id=model.id,
