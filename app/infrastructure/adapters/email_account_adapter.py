@@ -20,7 +20,7 @@ class GmailProviderAdapter(IGmailProviderAdapter):
         self.email_account_repo=email_account_repo
 
     async def get_service(self, email_account_id: UUID):
-        account = await self.email_account_repo.find_by_user_id(email_account_id)
+        account = await self.email_account_repo.find_by_id(email_account_id)
         if not account:
             raise ValueError(f"Conta de e-mail com ID '{email_account_id}' não foi encontrada.")
 
