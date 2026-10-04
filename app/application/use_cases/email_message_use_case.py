@@ -5,6 +5,7 @@ from app.domain.contracts.email_account.repositories import IEmailAccountReposit
 from app.domain.contracts.email_message.repositories import IEmailMessageRepository
 from app.domain.contracts.email_message.servicies import IEmailMessageDispatcherService
 from app.domain.entities.email_message.email_message_entity import EmailMessageEntity
+from app.domain.exceptions.gmail_account_exceptions import GmailAccountNotConnectedException
 from app.domain.exceptions.user_exceptions import UserNotFoundException
 from app.domain.value_objects.scheduled_at_vo import ScheduledAtVO
 
@@ -27,7 +28,7 @@ class RegisterEmailMessageUseCase:
             subject=dto.subject,
             body=dto.body,
             scheduled_at=ScheduledAtVO(value=dto.scheduled_at) if dto.scheduled_at else None,
-            email_account=account.user
+            email_account=account.id
         )
         await self.email_message_repo.save(message)
 
@@ -48,3 +49,19 @@ class SendEmailMessageUseCase:
             raise Exception('')
 
         await self.dispatcher.dispatch(message)
+
+
+class ListEmailMessagesUseCase:
+    def __init__(self, email_message_repo: IEmailMessageRepository, email_account_repo: IEmailAccountRepository) -> None:
+        self.email_message_repo=email_message_repo
+        self.email_account_repo=email_account_repo
+
+    async def execute(self, user: UUID):
+        email_account = await self.email_account_repo.find_by_user_id(user)
+        if email_account is None:
+            raise GmailAccountNotConnectedException()
+
+        return [
+            EmailMessageOutDTO.from_domain(message)
+            for message in await self.email_message_repo.list_messages_by_email_account(email_account.id)
+        ]
