@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import List
 from uuid import UUID
 
 from advanced_alchemy.repository import SQLAlchemyAsyncRepository
@@ -36,6 +37,12 @@ class AdvancedEmailMessageRepository(SQLAlchemyAsyncRepository[EmailMessage], IE
 
         return self._model_to_entity(model)
 
+    async def list_messages_by_email_account(self, email_account: UUID) -> List[EmailMessageEntity]:
+        return [
+            self._model_to_entity(message)
+            for message in await self.list(email_account_id=email_account)
+        ]
+
     def _entity_to_model(self, entity: EmailMessageEntity) -> EmailMessage:
         return EmailMessage(
             id=entity.id,
@@ -57,7 +64,7 @@ class AdvancedEmailMessageRepository(SQLAlchemyAsyncRepository[EmailMessage], IE
             body=model.body,
             email_account=model.email_account_id,
             scheduled_at=ScheduledAtVO(value=model.scheduled_at) if model.scheduled_at else None,
-            status=StatusEmailMessage(model.status if isinstance(model.status, str) else StatusEmailMessage.PENDING.value),
+            status=StatusEmailMessage(model.status if isinstance(model.status, Enum) else StatusEmailMessage.PENDING.value),
             sent_as=model.sent_as,
             created_at=model.created_at
         )
