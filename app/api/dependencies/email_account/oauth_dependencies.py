@@ -5,8 +5,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.application.use_cases.oauth_use_cases import (
     ConnectEmailAccountUseCase,
+    DisconectEmailAccountUseCase,
     GmailOAuthCallbackUseCase,
 )
+from app.domain.contracts.email_account.adapters import IGmailProviderAdapter
 from app.domain.contracts.email_account.repositories import (
     IEmailAccountRepository,
     IOAuthConnectionRepository,
@@ -89,9 +91,19 @@ def get_oauth_callback_use_case(
     )
 
 
+def get_disconnect_gmail_use_case(
+    email_account_repo: IEmailAccountRepository = Depends(get_email_account_repository),
+    gmail_adapter: IGmailProviderAdapter = Depends(get_gmail_provider_adapter)
+) -> DisconectEmailAccountUseCase:
+    return DisconectEmailAccountUseCase(email_account_repo=email_account_repo, gmail_adapter=gmail_adapter)
+
+
 ConnectEmailAccountUseCaseDependency = Annotated[
     ConnectEmailAccountUseCase, Depends(get_oauth_connect_use_case)
 ]
 OAuthCallbackUseCaseDependency = Annotated[
     GmailOAuthCallbackUseCase, Depends(get_oauth_callback_use_case)
+]
+DisconnectEmailAccountUseCaseDependency = Annotated[
+    DisconectEmailAccountUseCase, Depends(get_disconnect_gmail_use_case)
 ]
