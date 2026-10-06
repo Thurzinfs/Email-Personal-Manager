@@ -11,3 +11,7 @@ class IGmailProviderAdapter(ABC):
     @abstractmethod
     async def send_email(self, email_account_id: UUID, to: str, subject: str, body: Any):
         ...
+
+    @abstractmethod
+    async def revoke(self, email_account_id: UUID) -> None:
+        ...
