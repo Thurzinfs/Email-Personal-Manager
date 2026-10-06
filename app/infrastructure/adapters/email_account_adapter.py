@@ -8,6 +8,7 @@ from uuid import UUID
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
+import httpx
 
 from app.domain.contracts.email_account.adapters import IGmailProviderAdapter
 from app.domain.contracts.email_account.repositories import IEmailAccountRepository
@@ -60,3 +61,18 @@ class GmailProviderAdapter(IGmailProviderAdapter):
         sent = await asyncio.to_thread(_send)
 
         return sent['id']
+
+    async def revoke(self, email_account_id: UUID) -> None:
+        account = await self.email_account_repo.find_by_id(email_account_id)
+        if not account:
+            return 
+
+        refresh_token = self.token_encryptor.decrypt(account.refresh_token)
+
+        async with httpx.AsyncClient() as client:
+            await client.post(
+                'https://oauth2.googleapis.com/revoke',
+                params={'token': refresh_token},
+                headers={"content-type": 'application/x-www-form-urlencoded'}
+            )
+        
