@@ -24,6 +24,6 @@ class EmailMessageOutDTO(BaseModel):
             to=model.to_address,
             subject=model.subject,
             body=model.body,
-            scheduled_at=model.scheduled_at,
+            scheduled_at=model.scheduled_at.value,
             status=model.status
         )
