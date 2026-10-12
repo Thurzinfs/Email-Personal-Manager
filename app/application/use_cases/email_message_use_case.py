@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from uuid import UUID
 
 from app.application.dtos.email_messages_dtos import EmailMessageInDTO, EmailMessageOutDTO
@@ -65,3 +66,12 @@ class ListEmailMessagesUseCase:
             EmailMessageOutDTO.from_domain(message)
             for message in await self.email_message_repo.list_messages_by_email_account(email_account.id)
         ]
+
+
+class ListEmailMessagesToSendUseCase:
+    def __init__(self, message_repo: IEmailMessageRepository) -> None:
+        self.message_repo=message_repo
+
+    async def execute(self):
+        now = datetime.now(timezone.utc)
+        return await self.message_repo.find_due_messages(now)
