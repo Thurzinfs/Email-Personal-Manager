@@ -1,7 +1,9 @@
+from datetime import datetime
 from enum import Enum
 from typing import List
 from uuid import UUID
 
+from advanced_alchemy.filters import BeforeAfter
 from advanced_alchemy.repository import SQLAlchemyAsyncRepository
 
 from app.domain.contracts.email_message.repositories import IEmailMessageRepository
@@ -43,6 +45,13 @@ class AdvancedEmailMessageRepository(SQLAlchemyAsyncRepository[EmailMessage], IE
             for message in await self.list(email_account_id=email_account)
         ]
 
+    async def find_due_messages(self, now: datetime) -> List[EmailMessageEntity]:
+        models = await self.list(
+            BeforeAfter(field_name='scheduled_at', before=now, after=None),
+            status=StatusEmailMessage.PENDING.value
+        )
+        return [self._model_to_entity(message) for message in models]
+    
     def _entity_to_model(self, entity: EmailMessageEntity) -> EmailMessage:
         return EmailMessage(
             id=entity.id,
