@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from datetime import datetime
 from typing import List
 from uuid import UUID
 
@@ -20,4 +21,8 @@ class IEmailMessageRepository(ABC):
 
     @abstractmethod
     async def list_messages_by_email_account(self, email_account: UUID) -> List[EmailMessageEntity]:
+        ...
+
+    @abstractmethod
+    async def  find_due_messages(self, now: datetime) -> List[EmailMessageEntity]:
         ...
