@@ -13,13 +13,26 @@ from app.api.handlers.user.user_api_route_handler import UserAPiRouteHandler
 from app.infrastructure.database.sqlite.database import close_db, init_models
 
 from app.infrastructure.database.sqlite.database import alchemy
+from app.infrastructure.scheduler.jobs import check_and_send_messages
+from app.infrastructure.scheduler.scheduler import scheduler
 from config.exception import BaseDomainException
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_models()
+    scheduler.add_job(
+        check_and_send_messages,
+        trigger='interval',
+        seconds=60,
+        id='check_and_send_messages',
+        max_instances=1,
+        coalesce=True,
+        misfire_grace_time=30
+    )
+    scheduler.start()
     yield
+    scheduler.shutdown(wait=False)
     await close_db()
 
 
